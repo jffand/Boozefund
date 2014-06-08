@@ -1,0 +1,114 @@
+extends layout
+
+block content
+	.container#users
+		.row
+			.col-md-6
+				div(class="page-header")
+					h1 Users
+				table(class="table table-striped")
+					tr
+						th Username
+						th Tab
+					- each user in data.users
+						tr
+						td=user.user_name	
+						td=user.tab
+				form(action="/" method="post").form-inline#userForm
+					.form-group
+						label Username
+						input(type="username" name ="newUser" placeholder="new username" class="form-control" id="newUser")
+						label Tab
+						input(type="number" name="tab" placeholder="##.##" class="form-control" id="tab")
+						button(type="submit" class="btn btn-default") Submit
+				div#userMessage
+	.container#groups
+		.row
+			.col-md-6
+				div(class="page-header")
+					h1 Groups
+				table(class="table table-striped")
+					tr
+						th Name
+						th Owner
+						th Description
+					- each group in data.groups
+						tr
+						td=group.name
+						td=group.owner
+						td=group.description
+	.container#members
+		.row
+			.col-md-6
+				div(class="page-header")
+					h1 Members
+				table(class="table table-striped")
+					tr
+						th Name
+						th Group
+					- each member in data.members
+						tr
+						td=member.user_name
+						td=member.name
+	.container#booze
+		.row
+			.col-md-6
+				div(class="page-header")
+					h1 Booze
+				table(class="table table-striped")
+					tr
+						th Name
+						th Size
+						th Price
+						th Type
+					- each booze in data.booze
+						tr
+						td=booze.name
+						td=booze.size
+						td=booze.price
+						td=booze.type
+	.container#wants
+		.row
+			.col-md-6
+				div(class="page-header")
+					h1 Wants
+				table(class="table table-striped")
+					tr
+						th Group
+						th Want
+						th Upvotes
+					- each want in data.wants
+						tr
+						td=want.group
+						td=want.booze
+						td=want.upvotes
+	.container#votes
+		.row
+			.col-md-6
+				div(class="page-header")
+					h1 Votes
+				table(class="table table-striped")
+					tr
+						th User
+						th Group
+						th VotedOn
+					- each vote in data.votes
+						tr
+						td=vote.user
+						td=vote.from
+						td=vote.voted
+	.container#purchases
+		.row
+			.col-md-6
+				div(class="page-header")
+					h1 Purchases
+				table(class="table table-striped")
+					tr
+						th Group
+						th Purchase
+					- each purchase in data.purchases
+						tr
+						td=purchase.group
+						td=purchase.purchase
+
+	script(src='/javascripts/dataView.js')

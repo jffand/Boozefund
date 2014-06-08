@@ -1,0 +1,36 @@
+extends layout
+
+block content
+	.container
+		.row
+			Legend.text-center Register
+			.col-md-4.col-md-offset-3
+				.well
+					#registration-form
+					form(action="/register" method="post").form-horizontal
+						fieldset
+							.form-group
+								label(for="username").col-md-3.control-label username
+								.col-md-9
+								input(type="text" name="username" placeholder="User name").form-control#username
+							.form-group
+								label(for="password").col-md-3.control-label Password
+								.col-md-9
+								input(type="password" name="pass" placeholder="Password").form-control#pass
+							.form-group
+								label(for="Password Again").col-md-3.control-label Password Again
+								.col-md-9
+								input(type="password" name="pass_rep" placeholder="Repeat").form-control#pass_rep
+							.form-group
+								label(for="over21").col-md-3.control-label I am 21 or over
+								input(type="checkbox" name="over21" value="checked").form-control#over21
+							.form-group
+								.col-md-12.text-right
+								button.btn.btn-primary.btn-lg(type="submit") Send
+	.col-md-6.col-md-offset-3
+		if (errors)
+			.alert.alert-danger
+				p= message
+				ul
+					each error in errors
+						li= error.msg

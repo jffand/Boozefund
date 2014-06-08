@@ -1,0 +1,30 @@
+extends layout
+
+block content
+	.container
+		.row
+			.col-md-8
+				.well
+					Legend.text-center Hello!
+			.col-md-4
+				.well
+					p This is the tab spot
+		.row
+			.col-md-8
+				.panel-group#accordion
+					.panel.panel-default
+						.panel-heading
+							h4.panel-title
+								a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne")
+									Group #1
+						div(id='collapseOne', class='panel-collapse collapse in')
+							.panel-body
+								This is the panel body #1
+					.panel.panel-default
+						.panel-heading
+							h4.panel-title
+								a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo")
+									Group #1
+						div(id='collapseTwo', class='panel-collapse collapse')
+							.panel-body
+								This is the panel body #2					
