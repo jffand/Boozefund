@@ -141,7 +141,6 @@ router.get('/', function(req, res) {
 	}
 	],
 	function(err,results) {
-	  	console.log(allData);
 	  	res.render('dataView',{data: allData});
 	  });
  });

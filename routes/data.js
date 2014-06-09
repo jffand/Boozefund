@@ -16,11 +16,13 @@ router.post('/userAdd', function(req, res) {
 			db(function(err, connection) {
 			        if (err) {
 			          console.log(err);
+			          res.send(500,{error:"database error"});
 			          return;
 			        }
-			        connection.query("INSERT INTO users (user_name,user_pass_hash,user_salt,tab) VALUES (?,?,?,?)",[req.body.name,fakePass,fakeSalt,req.body.tab], function(err, rows) {
+			        connection.query("INSERT INTO users (user_name,user_pass_hash,user_salt,tab) VALUES (?,?,?,?)",[req.body.username,fakePass,fakeSalt,req.body.tab], function(err, rows) {
 			          if (err) {
 			            console.log(err);
+			            res.send(500,{error:"database error"});
 			            return;
 			          }
 			          
@@ -33,23 +35,114 @@ router.post('/userAdd', function(req, res) {
 	addUser(function(err,rows){
 		if(err) {
 			console.log(err);
+			res.send(500,{error:"database error"});
 		} else {
 		console.log("A user added!");
+		res.send(200,{success:"did it"});
 		}
 	});
 });
 
 //update a user
 router.post('/userUpdate', function(req, res) {
-  console.log("An add!");
+
+	function updateUser(callback) {
+		db(function(err, connection) {
+		console.log(req.body);
+		       if (err) {
+	           console.log(err);
+	           res.send(500,{error:"database error"});
+		          return;
+		        }
+		        connection.query("UPDATE users SET tab=? WHERE user_name= ?",[req.body.tab,req.body.username], function(err, rows) {
+		          if (err) {
+		            console.log(err);
+		            res.send(500,{error:"database error"});
+		            return;
+		          }
+			          
+	          callback(err,rows);
+		        });
+			});
+	}
+
+	updateUser(function(err,rows){
+		if(err) {
+			console.log(err);
+			res.send(500,{error:"database error"});
+		} else {
+		console.log("A user has been updated!");
+		res.send(200,{success:"did it"});
+		}
+	});
 });
+
 //delete a user
 router.post('/userDelete', function(req, res) {
-  console.log("An add!");
+
+	function deleteUser(callback) {
+		db(function(err, connection) {
+		console.log(req.body);
+		       if (err) {
+	           console.log(err);
+	           res.send(500,{error:"database error"});
+		          return;
+		        }
+		        connection.query("DELETE FROM users WHERE user_name = ?",[req.body.username], function(err, rows) {
+		          if (err) {
+		            console.log(err);
+		            res.send(500,{error:"database error"});
+		            return;
+		          }
+			          
+	          callback(err,rows);
+		        });
+			});
+	}
+
+	deleteUser(function(err,rows){
+		if(err) {
+			console.log(err);
+			res.send(500,{error:"database error"});
+		} else {
+		console.log("A user has been updated!");
+		res.send(200,{success:"did it"});
+		}
+	});
 });
+
 //add a member
 router.post('/memberAdd', function(req, res) {
-  console.log("An add!");
+
+	function addMember(callback) {
+		db(function(err, connection) {
+		console.log(req.body);
+		       if (err) {
+	           console.log(err);
+	           res.send(500,{error:"database error"});
+		          return;
+		        }
+		        connection.query("INSERT INTO members (users_user_ID, groups_group_ID) VALUES((SELECT user_ID FROM users WHERE users.user_name = ?),(SELECT group_ID FROM groups WHERE groups.name=?))",[req.body.user,req.body.group], function(err, rows) {
+		          if (err) {
+		            console.log(err);
+		            res.send(500,{error:"database error"});
+		            return;
+		          }
+			          
+	          callback(err,rows);
+		        });
+			});
+	}
+
+	addMember(function(err,rows){
+		if(err) {
+			console.log(err);
+			res.send(500,{error:"database error"});
+		} else {
+		console.log("A group has been added!");
+		res.send(200,{success:"did it"});
+		}
+	});
 });
 //remove a member
 router.post('/memberDelete', function(req, res) {
@@ -57,7 +150,36 @@ router.post('/memberDelete', function(req, res) {
 });
 //add a group
 router.post('/groupAdd', function(req, res) {
-  console.log("An add!");
+
+	function addGroup(callback) {
+		db(function(err, connection) {
+		console.log(req.body);
+		       if (err) {
+	           console.log(err);
+	           res.send(500,{error:"database error"});
+		          return;
+		        }
+		        connection.query("INSERT INTO groups (name,description,owner) VALUES (?,?,?)",[req.body.name,req.body.description,1], function(err, rows) {
+		          if (err) {
+		            console.log(err);
+		            res.send(500,{error:"database error"});
+		            return;
+		          }
+			          
+	          callback(err,rows);
+		        });
+			});
+	}
+
+	addGroup(function(err,rows){
+		if(err) {
+			console.log(err);
+		} else {
+		console.log("A group has been added!");
+		res.send(200,{success:"did it"});
+		}
+	});
+
 });
 //update group info
 router.post('/groupUpdate', function(req, res) {
