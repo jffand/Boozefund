@@ -17,6 +17,7 @@
     "mysql": "*",
     "crypto": "*",
     "express-session": "*",
-    "async": "*"
+    "async": "*",
+    "connect-redis" : "*"
   }
 }

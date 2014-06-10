@@ -24,10 +24,7 @@ router.post('/', function(req,res) {
 
   //display errors if they exist
   if (mappedErrors) {
-      res.render('register', {
-        message: 'uh oh!',
-        errors: mappedErrors
-      });
+      res.render('register',{errors: mappedErrors});
     } else {
 
   //save username and password if no errors in input
@@ -57,11 +54,9 @@ router.post('/', function(req,res) {
   });
   
 //re-render page
-    res.render('register', {
-      message: 'success!',
-      errors: {}
-    });
+    res.render('login',{success:"user Added"});
     };
+    
 });
 
 module.exports = router;

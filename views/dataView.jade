@@ -1,15 +1,16 @@
 extends layout
 
 block content
-	.row
-		.col-md-6
-			div(class="page-header")
-				h1 Boozefund Data
-			p Boozefund data page.  Please select add,update,or delete from each form before submitting.
-			| For update or delete actions, username, name, or group fields must reference existing entry.
-	.container#users
+	.container-narrow#heading
 		.row
-			.col-md-6
+			.col-md-6.col-md-offset-3
+				div(class="page-header")
+					h1 Boozefund Data
+				p Boozefund data page.  Please select add,update,or delete from each form before submitting.
+				| <strong>For update or delete actions, username, name, group, or booze fields must reference existing entry.
+	.container-narrow#users
+		.row
+			.col-md-6.col-md-offset-3
 				div(class="page-header")
 					h1 Users
 				table(class="table table-striped")
@@ -18,9 +19,9 @@ block content
 						th Tab
 					- each user in data.users
 						tr
-						td=user.user_name	
-						td=user.tab
-				form(action="/" method="post").form-inline#userForm
+							td=user.user_name	
+							td=user.tab
+				form(action="/" method="post").form_horizontal#userForm
 					.form-group
 						label Username
 						input(type="username" name ="user" placeholder="new username" class="form-control" id="user")
@@ -37,9 +38,9 @@ block content
 							label Delete
 						button(type="submit" class="btn btn-default") Submit
 				div#userMessage
-	.container#groups
+	.container-narrow#groups
 		.row
-			.col-md-6
+			.col-md-6.col-md-offset-3
 				div(class="page-header")
 					h1 Groups
 				table(class="table table-striped")
@@ -49,29 +50,29 @@ block content
 						th Description
 					- each group in data.groups
 						tr
-						td=group.name
-						td=group.owner
-						td=group.description
-				form(action="/" method="post").form-inline#groupsForm
+							td=group.name
+							td=group.owner
+							td=group.description
+				form(action="/" method="post").form_horizontal#groupsForm
 					.form-group
 						label Name
-						input(type="text" name ="newName" placeholder="new group name" class="form-control" id="newGroupName")
+						input(type="text" name ="newName" placeholder="group name" class="form-control" id="GroupName")
 						label Description
 						input(type="text" name="description" placeholder="describe group" class="form-control" id="description")
 						#radio
-							input(type="radio" name="groupAdd" id="groupAdd")
+							input(type="radio" name="groupRadio" value="groupAdd")
 							label Add
 						#radio
-							input(type="radio" name="groupUpdate" id="groupUpdate")
+							input(type="radio" name="groupRadio" value="groupUpdate")
 							label Update
 						#radio
-							input(type="radio" name="groupDelete" id="groupDelete")
+							input(type="radio" name="groupRadio" value="groupDelete")
 							label Delete
 						button(type="submit" class="btn btn-default") Submit
 				div#groupMessage
-	.container#members
+	.container-narrow#members
 		.row
-			.col-md-6
+			.col-md-6.col-md-offset-3
 				div(class="page-header")
 					h1 Members
 				table(class="table table-striped")
@@ -80,28 +81,25 @@ block content
 						th Group
 					- each member in data.members
 						tr
-						td=member.user_name
-						td=member.name
-				form(action="/" method="post").form-inline#membersForm
+							td=member.user_name
+							td=member.name
+				form(action="/" method="post").form_horizontal#membersForm
 					.form-group
 						label User
 						input(type="text" name ="userMember" placeholder="Existing user" class="form-control" id="userMember")
 						label Group to Join
 						input(type="text" name="groupJoin" placeholder="Group to join" class="form-control" id="groupJoin")
 						#radio
-							input(type="radio" name="memberAdd" id="memberAdd")
+							input(type="radio" name="memberRadio" value="memberAdd")
 							label Add
 						#radio
-							input(type="radio" name="memberUpdate" id="memberUpdate")
-							label Update
-						#radio
-							input(type="radio" name="memberDelete" id="memberDelete")
+							input(type="radio" name="memberRadio" value="memberDelete")
 							label Delete
 						button(type="submit" class="btn btn-default") Submit
 				div#memberMessage
-	.container#booze
+	.container-narrow#booze
 		.row
-			.col-md-6
+			.col-md-6.col-md-offset-3
 				div(class="page-header")
 					h1 Booze
 				table(class="table table-striped")
@@ -112,22 +110,22 @@ block content
 						th Type
 					- each booze in data.booze
 						tr
-						td=booze.name
-						td=booze.size
-						td=booze.price
-						td=booze.type
-				form(action="/" method="post").form-inline#boozeForm
+							td=booze.name
+							td=booze.size
+							td=booze.price
+							td=booze.type
+				form(action="/" method="post").form_horizontal#boozeForm
 					.form-group
 						label Name
-						input(type="text" name ="boozeName" placeholder="Booze to add" class="form-control" id="newBooze")
+						input(type="text" name="booze" placeholder="Booze" class="form-control" id="theBooze")
 						label Size
-						select(name="newSize" class="form-control" id="newSize")
+						select(name="size" class="form-control" id="size")
 							option 375
 							option 750
 							option 1750
 						label Price
-						input(type="number" name ="newPrice" placeholder="#" class="form-control" id="newPrice")
-						select(name="newType" class="form-control" id="newType")
+						input(type="number" name ="price" placeholder="#" class="form-control" id="price")
+						select(name="type" class="form-control" id="type")
 							option Whiskey
 							option Vodka
 							option Brandy
@@ -135,19 +133,19 @@ block content
 							option Tequila
 							option Other
 						#radio
-							input(type="radio" name="boozeAdd" id="userAdd")
+							input(type="radio" name="boozeRadio" value="boozeAdd")
 							label Add
 						#radio
-							input(type="radio" name="boozeUpdate" id="userUpdate")
+							input(type="radio" name="boozeRadio" value="boozeUpdate")
 							label Update
 						#radio
-							input(type="radio" name="boozeDelete" id="userDelete")
+							input(type="radio" name="boozeRadio" value="boozeDelete")
 							label Delete
 						button(type="submit" class="btn btn-default") Submit
 				div#boozeMessage
-	.container#wants
+	.container-narrow#wants
 		.row
-			.col-md-6
+			.col-md-6.col-md-offset-3
 				div(class="page-header")
 					h1 Wants
 				table(class="table table-striped")
@@ -157,10 +155,10 @@ block content
 						th Upvotes
 					- each want in data.wants
 						tr
-						td=want.group
-						td=want.booze
-						td=want.upvotes
-				form(action="/" method="post").form-inline#wantsForm
+							td=want.group
+							td=want.booze
+							td=want.upvotes
+				form(action="/" method="post").form_horizontal#wantsForm
 					.form-group
 						label group
 						input(type="text" name ="groupWant" placeholder="Group for want" class="form-control" id="groupWant")
@@ -169,21 +167,23 @@ block content
 						label upvotes
 						input(type="numbers" name="upvoteWant" placeholder="Upvotes for want" class="form-control" id="upvoteWant")
 						#radio
-							input(type="radio" name="wantAdd" id="wantAdd")
+							input(type="radio" name="wantRadio" value="wantAdd")
 							label Add
 						#radio
-							input(type="radio" name="wantUpdate" id="wantUpdate")
+							input(type="radio" name="wantRadio" value="wantUpdate")
 							label Update
 						#radio
-							input(type="radio" name="wantDelete" id="wantDelete")
+							input(type="radio" name="wantRadio" value="wantDelete")
 							label Delete
 						button(type="submit" class="btn btn-default") Submit
 				div#wantMessage
-	.container#votes
+	.container-narrow#votes
 		.row
-			.col-md-6
+			.col-md-6.col-md-offset-3
 				div(class="page-header")
 					h1 Votes
+					p <strong> votes does not accept duplicate entries!
+					p <string> group and booze must reference existing want.  It's tricky!
 				table(class="table table-striped")
 					tr
 						th User
@@ -191,31 +191,28 @@ block content
 						th VotedOn
 					- each vote in data.votes
 						tr
-						td=vote.user
-						td=vote.from
-						td=vote.voted
-				form(action="/" method="post").form-inline#votesForm
+							td=vote.user
+							td=vote.from
+							td=vote.voted
+				form(action="/" method="post").form-horizontal#votesForm
 					.form-group
 						label User
 						input(type="text" name ="userVote" placeholder="Existing user" class="form-control" id="userVote")
-						label Group voted from
+						label Group
 						input(type="text" name="groupVote" placeholder="Group voted from" class="form-control" id="groupVote")
-						label Booze voted for
+						label Booze
 						input(type="text" name="boozeVote" placeholder="Booze voted from" class="form-control" id="boozeVote")
-						button(type="submit" class="btn btn-default") Submit
 						#radio
-							input(type="radio" name="voteAdd" id="voteAdd")
+							input(type="radio" name="voteRadio" value="voteAdd")
 							label Add
 						#radio
-							input(type="radio" name="voteUpdate" id="voteUpdate")
-							label Update
-						#radio
-							input(type="radio" name="voteDelete" id="voteDelete")
+							input(type="radio" name="voteRadio" value="voteDelete")
 							label Delete
-				div#memberMessage
-	.container#purchases
+						button(type="submit" class="btn btn-default") Submit
+				div#voteMessage
+	.container-narrow#purchases
 		.row
-			.col-md-6
+			.col-md-6.col-md-offset-3
 				div(class="page-header")
 					h1 Purchases
 				table(class="table table-striped")
@@ -224,24 +221,22 @@ block content
 						th Purchase
 					- each purchase in data.purchases
 						tr
-						td=purchase.group
-						td=purchase.purchase
-				form(action="/" method="post").form-inline#purchasesForm
+							td=purchase.group
+							td=purchase.purchase
+				form(action="/" method="post").form_horizontal#purchasesForm
 					.form-group
 						label Group
 						input(type="text" name ="groupPurchase" placeholder="Group" class="form-control" id="groupPurchase")
 						label Booze Purchased
 						input(type="text" name="boozePurchase" placeholder="Booze bought" class="form-control" id="boozePurchase")
 						#radio
-							input(type="radio" name="purchaseAdd" id="purchaseAdd")
+							input(type="radio" name="purchaseRadio" value="purchaseAdd")
 							label Add
 						#radio
-							input(type="radio" name="purchaseUpdate" id="purchaseUpdate")
-							label Update
-						#radio
-							input(type="radio" name="purchaseDelete" id="purchaseDelete")
+							input(type="radio" name="purchaseRadio" value="purchaseDelete")
 							label Delete
 						button(type="submit" class="btn btn-default") Submit
-				div#memberMessage
+				div#purchaseMessage
+				.container-narrow.spacer
 
 	script(src='/javascripts/dataView.js')

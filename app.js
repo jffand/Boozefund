@@ -8,6 +8,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var async = require('async');
+var RedisStore = require("connect-redis")(session);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -29,7 +30,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(session({secret: '1234567890QWERTY'}));
+app.use(session({
+    secret: "you don't know me"
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/',routes);

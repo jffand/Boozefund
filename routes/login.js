@@ -5,67 +5,63 @@ var db = require('../database.js');
 
 var user = {};
 
-//kinda callbackhell but whatever
-function authUser(name,pass,callback) {
-	db(function(err, connection) {
+/* GET home page. */
+router.get('/', function(req, res) {
+  if(req.session.user) {
+    res.redirect("/dataView");
+  } else {
+    res.render('login');
+  }
+});
+
+router.post('/', function(req, res){
+    //validate user
+      db(function(err, connection) {
         if (err) {
-          console.log(err);
+          res.send(500,{error:err});
           return;
         }
-        connection.query("SELECT * FROM users WHERE user_name=?",name, function(err, rows) {
+        connection.query("SELECT * FROM users WHERE user_name=?",req.body.username, function(err, rows) {
           if (err) {
-            console.log(err);
-            return;
+            res.send(500,{error:err});
+            return
           }
 
           if(rows.length == 0)
           {
-          	console.log("user not found!");
-          	return;
+            res.send(500,{error:err});
+            return
           }
 
-        	hash(pass, rows[0].user_salt, function(err, hash){
-    			if (err) return fn(err);
-    			else if (hash == rows[0].user_pass_hash) success(rows);
-   				else console.log('invalid password');
-			});
+          console.log(rows);
 
+          hash(req.body.pass, rows[0].user_salt, function(err, hash){
+            if (err) res.send(500,{error:err});
+             else if (hash !== rows[0].user_pass_hash) {
+                res.send(500,{error:'invalid password'});
+                return
+             } else {
+                  //success
+                  console.log("woohoo!");
+                  //set user data
+                  user.name = rows[0].user_name;
+                  user.hash = rows[0].user_pass_hash;
+                  user.salt = rows[0].user_salt;
+                  user.ID = rows[0].user_ID;
 
-        });
-    });
-};
+                  console.log(user);
 
-function success(data) {
+                //set session
+                  req.session.regenerate( function() {
+                  req.session.user = user;
+                  res.send(200,{success:'woohoo!'});
+                  });
+                }
 
-console.log("woohoo!");
-	//set user data
-	user.name = data[0].user_name;
-	user.hash = data[0].user_pass_hash;
-	user.salt = data[0].user_salt;
-	user.ID = data[0].user_ID;
+          });
+      });
+   });
 
-		console.log(user);	
-};
-
-
-//hacked up to be removed!
-//From Express.js Auth API https://github.com/visionmedia/express/blob/master/examples/auth/app.js
-function authenticate(userObj,name,pass, fn) {
-
-  if (!module.parent) console.log('authenticating %s:%s', name, pass);
-
- if (!userObj.name) return fn(new Error('cannot find user'));
- 
-};
-
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('login');
-});
-
-router.post('/', function(req, res){
-
-	authUser(req.body.username,req.body.pass, success);
 });
 
 module.exports = router;
