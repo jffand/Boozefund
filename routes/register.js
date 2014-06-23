@@ -1,13 +1,16 @@
+
+
 var express = require('express');
 var router = express.Router();
 var db = require('../database.js');
 var hash = require('../pass.js').hash;
 
-/* GET home page. */
+/* GET register page. */
 router.get('/', function(req, res) {
   res.render('register');
 });
 
+//validate and add user to DB
 router.post('/', function(req,res) {
 
   var userData= {};

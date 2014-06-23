@@ -1,3 +1,5 @@
+/*Route to handle POST requests from login page*/
+
 var express = require('express');
 var router = express.Router();
 var hash = require('../pass.js').hash;
@@ -5,7 +7,7 @@ var db = require('../database.js');
 
 var user = {};
 
-/* GET home page. */
+/* GET login page. Or direct to secret page */
 router.get('/', function(req, res) {
   if(req.session.user) {
     res.redirect("/dataView");
@@ -15,7 +17,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res){
-    //validate user
+    //validate username
       db(function(err, connection) {
         if (err) {
           res.send(500,{error:err});
@@ -34,7 +36,7 @@ router.post('/', function(req, res){
           }
 
           console.log(rows);
-
+          //validate password
           hash(req.body.pass, rows[0].user_salt, function(err, hash){
             if (err) res.send(500,{error:err});
              else if (hash !== rows[0].user_pass_hash) {
@@ -49,9 +51,7 @@ router.post('/', function(req, res){
                   user.salt = rows[0].user_salt;
                   user.ID = rows[0].user_ID;
 
-                  console.log(user);
-
-                //set session
+                  //set session
                   req.session.regenerate( function() {
                   req.session.user = user;
                   res.send(200,{success:'woohoo!'});

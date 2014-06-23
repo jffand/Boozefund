@@ -1,3 +1,5 @@
+/* Route to retrieve and display all database data */
+
 var express = require('express');
 var async = require('async');
 var router = express.Router();

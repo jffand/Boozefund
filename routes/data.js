@@ -1,3 +1,5 @@
+/* Route to handle all POST requests to database*/
+
 var express = require('express');
 var router = express.Router();
 var db = require('../database.js');
@@ -7,7 +9,7 @@ var hash = require('../pass.js').hash;
 router.post('/userAdd', function(req, res) {
 		function addUser(callback) {
 			console.log(req.body);
-			 //hash user a fake password
+			 //hash user a fake password when test user added
 			hash('faker', function(err, salt, hash){
 		    	if (err) throw err;
 		    		var fakeSalt = salt;

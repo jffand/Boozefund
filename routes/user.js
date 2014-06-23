@@ -1,3 +1,5 @@
+//displays user page. In development.
+
 var express = require('express');
 var router = express.Router();
 

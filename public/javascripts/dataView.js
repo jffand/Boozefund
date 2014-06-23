@@ -1,3 +1,6 @@
+/* jquery file for manipulating app data from
+*dataview page*/
+
 $(document).ready(function() {
 	$("#userForm").submit(function( event ) {
 
